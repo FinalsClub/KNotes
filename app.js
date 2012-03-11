@@ -16,7 +16,12 @@ var app = module.exports = express.createServer();
 // TODO: get 
 //mongoose.connect('mongodb://'+hostname+
 
-// Configuration
+/**
+ * App configuration in three parts:
+ *  - General configuration
+ *  - Development specific config
+ *  - Production specific config
+ */
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
