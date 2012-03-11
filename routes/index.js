@@ -6,5 +6,6 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Values to be rendered go here' })
+  //res.render('index.html', { title: 'Values to be rendered go here' })
+  res.sendfile( 'public/index.html' );
 };
