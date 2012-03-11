@@ -1,0 +1,89 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>KarmaNotes.org</title>
+  <meta name="description" 
+        content="A free notes-sharing site for college students.">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico in the root directory -->
+  <link rel="stylesheet" href="css/karmanotes.css">
+  <!-- All JavaScript at the bottom, except this Modernizr build -->
+  <script src="js/modernizr-2.5.3.min.js"></script>
+  <style>
+#newheader {
+	width: 900px;
+	height: 140px;
+	margin: 0 auto;
+	border: 2px solid green;
+}
+#newlogo {
+	float: left;
+	width: 270px;
+	height: 76px;
+	margin: 0;
+	padding: 15px 0px 0px 30px;
+	border: 2px solid blue;
+}
+  </style>
+</head>
+<body>
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+<header>
+	<div id="logo">
+		<h1><a href="/"><span class="capK">K</span>
+		                <span class="arma">arma</span>
+		                <span class="capN">N</span>
+		                <span class="otes">otes</span>
+		    </a>
+		</h1>
+		<h2><a href="/">Share Your Notes</a></h2>
+	</div>
+	<div id="menu">
+		<ul>
+			<li  class="active" ><a href="/">Home</a></li>
+			<li ><a href="/upload">Upload</a></li>
+			<li ><a href="/about">About</a></li>
+			<li ><a href="/contact">Contact</a></li>
+		</ul>
+	</div>
+</header>
+<div id="newheader">
+  <div id="newlogo">foo</div>
+</div>
+<!-- =================================================================== -->
+<div role="main">
+
+</div>
+<!-- =================================================================== -->
+<footer>
+
+</footer>
+<!-- =================================================================== -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>
+    window.jQuery || document.write(
+      '<script src="js/libs/jquery-1.7.1.min.js"><\/script>'
+    )
+  </script>
+  <!-- scripts concatenated and minified via build script -->
+  <script src="js/plugins.js"></script>
+  <script src="js/script.js"></script>
+  <!-- end scripts -->
+
+  <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
+       mathiasbynens.be/notes/async-analytics-snippet -->
+  <script>
+    var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g,s)}(document,'script'));
+  </script>
+</body>
+</html>
