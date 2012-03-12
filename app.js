@@ -5,16 +5,20 @@
  */
 var express = require('express')
   , routes = require('./routes')
-  , mongoose = require('./schema.js').mongoose
   , auth = require('connect-auth')
 
-// Import the app wrapper object from express
-var app = module.exports = express.createServer();
+// import schema.js for db models
 
+/**
+ *  Read env configs from the executing bash shell
+ */
+var hostname = process.env.SERVER_HOST
+    , port = process.env.SERVER_PORT;
+
+// Import the app wrapper object from express
+var app = express.createServer()
 // Mongoose (database) configuration
 
-// TODO: get 
-//mongoose.connect('mongodb://'+hostname+
 
 /**
  * App configuration in three parts:
@@ -41,6 +45,7 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
+
 
 // Routes
 
