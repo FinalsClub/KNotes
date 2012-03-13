@@ -67,7 +67,7 @@
     </div><!-- /hero-unit -->
 
     </div> <!-- /container -->
-<!--
+<!-- Also allow form file selection?
     <input class="btn" id="fileupload" type="file" name="files[]" multiple>
 <div class="progress progress-striped active">
   <div class="bar" id="progress" style="width: 0%;"></div>
@@ -75,7 +75,6 @@
 -->
 <script>
 var fileListHeaderDrawn = false;
-var fileCount = 0; //used to uniquely identify the progressbars
 function nodeToString ( node ) {
             var tmpNode = document.createElement( "div" );
             tmpNode.appendChild( node.cloneNode( true ) );
@@ -85,9 +84,9 @@ function nodeToString ( node ) {
           }
 
 $(function () {
-	//can i jank the progress bar divs so they are kept hooked to ONE file process
+  //Seems like these elements are available to 
 	progressBarContainer = document.createElement("div"),
-    progressBar = document.createElement("div");
+  progressBar = document.createElement("div");
     $('#file-list').fileupload({
         dataType: 'json',
         url: 'http://localhost:8080',
@@ -96,36 +95,33 @@ $(function () {
             	fileList = document.getElementById("file-list");
             	tr = document.createElement("tr");
             	
-                progressBarContainer.className = "progress progress-striped active";
-              	progressBar.className = "bar";
-              	//progressBar.id = "bar"+fileCount ++;
-              	progressBarContainer.appendChild(progressBar);
+              progressBarContainer.className = "progress progress-striped active";
+            	progressBar.className = "bar";
+            	progressBarContainer.appendChild(progressBar);
 
-                  if (fileListHeaderDrawn == false){
-                    headerRow = document.createElement("tr");
-                    headerRow.innerHTML = "<td><b>Name</b></td><td><b>Size</b></td><td><b>Progress</b></td>"
-                    fileList.appendChild(headerRow);
-                    fileListHeaderDrawn = true;
-                  }
-                  
-                  fileInfo = "<td>"+file.name +"</td>";
-                  fileInfo += "<td>"+ (Math.round(file.size/(100000))/10) + " MB</td>";
-                  fileInfo += "<td>" + nodeToString( progressBarContainer)+"</td>";
-                  tr.innerHTML = fileInfo;
-                  fileList.appendChild(tr);
+              if (fileListHeaderDrawn == false){
+                headerRow = document.createElement("tr");
+                headerRow.innerHTML = "<td><b>Name</b></td><td><b>Size</b></td><td><b>Progress</b></td>"
+                fileList.appendChild(headerRow);
+                fileListHeaderDrawn = true;
+              }
+                
+              fileInfo = "<td>"+file.name +"</td>";
+              fileInfo += "<td>"+ (Math.round(file.size/(100000))/10) + " MB</td>";
+              fileInfo += "<td>" + nodeToString( progressBarContainer)+"</td>";
+              tr.innerHTML = fileInfo;
+              fileList.appendChild(tr);
             });
         },
         progress: function (e, data) {
-    		var progress = parseInt(data.loaded / data.total * 100, 10);
-    		progressBar.style.width = progress+"%";
-    		alert(progressBar.style.width);
-    		if (progress == 100){
-    			progressBar.style.width = "0%";
-    			progressBarContainer.innerHTML = "Done";
-    		}
-    		//alert(progress);
-    		//progressBar.style.width="50%"
-		}
+      		var progress = parseInt(data.loaded / data.total * 100, 10);
+      		progressBar.style.width = progress+"%";
+      		alert(progressBar.style.width);
+      		if (progress == 100){
+      			progressBar.style.width = "0%";
+      			progressBarContainer.innerHTML = "Done";
+      		}
+		    }
     });
 });
 </script>
