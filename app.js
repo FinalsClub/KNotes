@@ -18,6 +18,7 @@ var hostname = process.env.SERVER_HOST
 // Import the app wrapper object from express
 var app = express.createServer()
 // Mongoose (database) configuration
+mongoose.connect('mongodb://localhost/data/db/');
 
 
 /**
@@ -30,7 +31,7 @@ var app = express.createServer()
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  app.use(express.bodyParser());
+  app.use(express.bodyParser({uploadDir:'./upload'}));
   app.use(express.methodOverride());
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'your secret here' }));
@@ -50,6 +51,17 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+app.post('/upload', function(req, res, next) {
+    console.log("/upload! "+req.body);
+    console.log(req.files);
+    console.log(req);
+    res.write('ok');
+    res.end();
+    // /upload should act as a holding directory
+    // when note upload is 'verified', it will be moved 
+    // to /public/notes or likewise
+
+});
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

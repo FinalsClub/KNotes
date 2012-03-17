@@ -3,6 +3,7 @@
 var mongoose    = require('mongoose')
   , Schema      = mongoose.Schema;
 
+<<<<<<< HEAD
 var Karma = new Schema ({
   action : Action
   , timestamp : Date
@@ -63,6 +64,20 @@ var Tag = new Schema({
   , description : String
 });
 
+=======
+mongoose.connect('mongodb://localhost/data/db/');
+
+var RATING_MAX = 100;
+var RATING_MIN = 0;
+
+var ExampleSchema = new Schema({
+  filename : String
+  , owner : Schema.ObjectId
+  , size : Number
+  , rating: Number({default:0, max:RATING_MAX, min:RATING_MIN})
+});
+
+>>>>>>> d6c06dd704d4812cf3bae13d28cb693af1b48e08
 // filename | placeholder for path to local file or to s3 file
 // owner | foreign key to a user object, TODO: Create user schema
 // size | size of the file in bytes, 

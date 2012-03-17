@@ -1,22 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Bootstrap CSS Toolkit styles -->
+<link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap.min.css">
+<title>Karma Notes</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="js/vendor/jquery.ui.widget.js"></script>
+<script src="js/jquery.iframe-transport.js"></script>
+<script src="js/jquery.fileupload.js"></script>
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>KarmaNotes.org</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- Le styles -->
-    <link href="/css/bootstrap.css" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    <style type="text/css">
+      body{
+        margin-top:60px;
+        font-family: 'Architects Daughter', cursive;
+        font-size: 18px;
+      }
+      a.btn{
+        font-size:20px;
+        
+        font-family: 'Architects Daughter', cursive;
+      }
+      p{
+        font-family: 'Architects Daughter', cursive;
+        font-size:20px;
+      }
+      a:visited{
+      }
+      a:active{
+      }
+      a:hover {
       }
     </style>
-    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
-
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -37,18 +54,72 @@
       
       <h2 style="font-family: 'Architects Daughter', cursive;"><b>drop your notes below to share!</b></h2>
       <div id="hero-unit" style="padding:10px;text-align:center">
-        <div style="padding:10px;width:40%;margin:auto;position:relative;z-index:0;">
-        <img src="/img/ohm.png" style="opacity:.2;width:300px"/>
+        <div id="drop-area" style="z-index:0;padding:10px;width:40%;margin:auto;position:relative;">
+        <img src="http://localhost:3000/img/ohm.svg" style="opacity:.1;width:300px"/>
         </div>
-        <p><a class="btn" href="">Notes</a>  <a class="btn" href="">Profile</a>  <a class="btn" href="">About</a></p>
+        <p><a class="btn" href="">notes</a>  <a class="btn" href="">profile</a>  <a class="btn" href="">about</a></p>
+        <table id="file-list" style="background:#ffffff;opacity:1;width:70%;cell-padding:5px;margin-left:auto;margin-right:auto;margin-top:-300px;z-index:1"></table>
         
     </div><!-- /hero-unit -->
 
     </div> <!-- /container -->
+<!-- Also allow form file selection?
+    <input class="btn" id="fileupload" type="file" name="files[]" multiple>
+<div class="progress progress-striped active">
+  <div class="bar" id="progress" style="width: 0%;"></div>
+</div>
+-->
+<script>
+  var fileListHeaderDrawn = false;
+  function nodeToString ( node ) {
+              var tmpNode = document.createElement( "div" );
+              tmpNode.appendChild( node.cloneNode( true ) );
+              var str = tmpNode.innerHTML;
+              tmpNode = node = null; // prevent memory leaks in IE
+              return str;
+            }
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+  $(function () {
+    //Seems like these elements are available to 
+  	progressBarContainer = document.createElement("div"),
+    progressBar = document.createElement("div");
+      $('#file-list').fileupload({
+          dataType: 'json',
+          url: 'http://localhost:8080',
+          done: function (e, data) {
+              $.each(data.result, function (index, file) {
+              	fileList = document.getElementById("file-list");
+              	tr = document.createElement("tr");
+              	
+                progressBarContainer.className = "progress progress-striped active";
+              	progressBar.className = "bar";
+              	progressBarContainer.appendChild(progressBar);
 
-  </body>
+                if (fileListHeaderDrawn == false){
+                  headerRow = document.createElement("tr");
+                  headerRow.innerHTML = "<td><b>Name</b></td><td><b>Size</b></td><td><b>Progress</b></td>"
+                  fileList.appendChild(headerRow);
+                  fileListHeaderDrawn = true;
+                }
+                  
+                fileInfo = "<td>"+file.name +"</td>";
+                fileInfo += "<td>"+ (Math.round(file.size/(100000))/10) + " MB</td>";
+                fileInfo += "<td>" + nodeToString( progressBarContainer)+"</td>";
+                tr.innerHTML = fileInfo;
+                fileList.appendChild(tr);
+              });
+          },
+          progress: function (e, data) {
+        		var progress = parseInt(data.loaded / data.total * 100, 10);
+        		progressBar.style.width = progress+"%";
+        		alert(progressBar.style.width);
+        		if (progress == 100){
+        			progressBar.style.width = "0%";
+        			progressBarContainer.innerHTML = "Done";
+        		}
+  		    }
+      });
+  });
+</script>
+</body> 
 </html>
