@@ -6,8 +6,8 @@
 var express = require('express')
   , routes = require('./routes')
   , auth = require('connect-auth')
+  , mongoose = require('./schema').mongoose;
 
-// import schema.js for db models
 
 /**
  *  Read env configs from the executing bash shell
@@ -18,6 +18,8 @@ var hostname = process.env.SERVER_HOST
 // Import the app wrapper object from express
 var app = express.createServer()
 // Mongoose (database) configuration
+console.log(mongoose);
+console.dir(mongoose);
 mongoose.connect('mongodb://localhost/data/db/');
 
 
