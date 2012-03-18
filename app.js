@@ -6,7 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , auth = require('connect-auth')
-  , mongoose = require('./schema').mongoose;
+  , mongoose = require('./schema').mongoose
 
 
 /**
@@ -18,9 +18,7 @@ var hostname = process.env.SERVER_HOST
 // Import the app wrapper object from express
 var app = express.createServer()
 // Mongoose (database) configuration
-console.log(mongoose);
-console.dir(mongoose);
-mongoose.connect('mongodb://localhost/data/db/');
+mongoose.connect('mongodb://localhost/kn');
 
 
 /**
