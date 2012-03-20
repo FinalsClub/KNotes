@@ -4,7 +4,7 @@
 # * ubuntu server-11.10
 
 
-NODE_VER=v0.6.11
+NODE_VER=v0.6.13
 SETUP_DIR=/tmp/fc_dev_env
 KARMA_HOME=/var/www/KNotes
 WEB_APP_ROOT=/var/www
@@ -26,8 +26,8 @@ node_install() {
 	curl http://nodejs.org/dist/$NODE_VER/node-$NODE_VER.tar.gz > node-$NODE_VER.tar.gz
 	tar xzvf node-$NODE_VER.tar.gz
 	cd node-$NODE_VER
-	sudo ./configure
-	sudo make
+	./configure
+	make
 	sudo make install
 }
 
@@ -38,6 +38,7 @@ npm_install() {
 	sudo make install
 	sudo npm install nodemon -g
 	sudo npm install forever -g
+  # TODO append /usr/local/bin to $PATH of the node or the www user instead of this
 	cd /usr/bin
 	ln -sf /usr/local/bin/node .
 	sudo ln -sf /usr/local/bin/node .
