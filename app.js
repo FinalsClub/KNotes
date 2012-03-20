@@ -19,6 +19,7 @@ var hostname = process.env.SERVER_HOST
 var app = express.createServer()
 // Mongoose (database) configuration
 mongoose.connect('mongodb://localhost/kn');
+var Note    = mongoose.model( 'Note' );
 
 
 /**
@@ -51,17 +52,8 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
-app.post('/upload', function(req, res, next) {
-    console.log("/upload! "+req.body);
-    console.log(req.files);
-    console.log(req);
-    res.write('ok');
-    res.end();
-    // /upload should act as a holding directory
-    // when note upload is 'verified', it will be moved 
-    // to /public/notes or likewise
-
-});
+app.get('/note', routes.notes);
+app.post('/upload', routes.upload);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

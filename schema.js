@@ -12,16 +12,25 @@ var Karma = new Schema ({
   , user : Schema.ObjectId
 });
 
-var Note = new Schema({
-  filename : String
-  , owner : Schema.ObjectId
-  , course : Schema.ObjectId
-  , size : Number
-  , campus : [Campus]
-  , votes : [Vote]
-  , subjects : [Subject]
-  , tags : [Tag]
+var NoteSchema = new Schema({
+  contributor : Schema.ObjectId
+  , votes       : [Vote]
+
+  , file : {
+      filename  : String
+      , path    : String
+      , size    : Number
+      , type    : String
+    }
+
+  , campus      : [Campus]
+  , subjects    : [Subject]
+  , course      : Schema.ObjectId
+  , tags        : [Tag]
+  , content     : String
+  , contentMeta : {}
 });
+var Note = mongoose.model( 'Note', NoteSchema );
 
 var Vote = new Schema({
   user : Schema.ObjectId
