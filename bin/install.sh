@@ -16,7 +16,7 @@ rm_node() {
 
 }
 
-setup_evn() {
+setup_env() {
 	mkdir $WEB_APP_ROOT
 	mkdir $SETUP_DIR
 }
@@ -58,7 +58,7 @@ npm_mod_install() {
 }
 
 clean_up() {
-	echo 'Cleaning up $SETUP_DIR ...\n'
+	echo "Cleaning up $SETUP_DIR ...\n"
 	rm -fr $SETUP_DIR
 }
 	
