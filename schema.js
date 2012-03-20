@@ -6,14 +6,27 @@ var mongoose    = require('mongoose')
 var RATING_MAX = 100;
 var RATING_MIN = 0;
 
-var Karma = new Schema ({
-  action : Schema.ObjectId // ActionSchema
-  , timestamp : Date
-  , user : Schema.ObjectId
+var UserSchema = new Schema({
+  name          : String
+  , email       : String
+  , school      : Schema.ObjectId
+  , facebookid  : String
+  , gradYear    : Number
+  , karma       : [Karma]
+  , karmaTotal  : Number
+  , privileges  : {
+      canUpload     : Boolean
+      , canRead     : Boolean
+      , canVote     : Boolean
+      , canComment  : Boolean
+      , canModerate : Boolean
+    }
+  , notes       : [Schema.ObjectId]
 });
+var User = mongoose.model( 'User', UserSchema );
 
 var NoteSchema = new Schema({
-  contributor : Schema.ObjectId
+  contributor   : Schema.ObjectId
   , votes       : [Vote]
 
   , file : {
@@ -35,6 +48,12 @@ var Note = mongoose.model( 'Note', NoteSchema );
 var Vote = new Schema({
   user : Schema.ObjectId
   , up : Boolean
+});
+
+var Karma = new Schema ({
+  action : Schema.ObjectId // ActionSchema
+  , timestamp : Date
+  , user : Schema.ObjectId
 });
 
 var Action = new Schema({

@@ -20,6 +20,7 @@ var app = express.createServer()
 // Mongoose (database) configuration
 mongoose.connect('mongodb://localhost/kn');
 var Note    = mongoose.model( 'Note' );
+var User    = mongoose.model( 'User' );
 
 
 /**
@@ -41,11 +42,11 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
-  app.use(express.errorHandler()); 
+  app.use(express.errorHandler());
 });
 
 
