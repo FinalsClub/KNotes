@@ -88,6 +88,7 @@ Our schema consists of three collections: Schools, Users, & Notes and is as foll
 
 
 File Uploading
+==============
 
 I've dropped in blueimp's file uploading service (/node_modules/blueimp-file-upload-node/server.js) because it's very well documented (https://github.com/blueimp/jQuery-File-Upload/wiki/API), and falls back to iframe transport for ye olde browsers. 
 

@@ -112,7 +112,7 @@
           progress: function (e, data) {
         		var progress = parseInt(data.loaded / data.total * 100, 10);
         		progressBar.style.width = progress+"%";
-        		alert(progressBar.style.width);
+        		//alert(progressBar.style.width);
         		if (progress == 100){
         			progressBar.style.width = "0%";
         			progressBarContainer.innerHTML = "Done";
