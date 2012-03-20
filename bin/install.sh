@@ -63,6 +63,7 @@ clean_up() {
 }
 	
 apt-get install git-core g++ libssl-dev curl make haproxy ruby rubygems mongodb-server # Will be replaced with OS Ver / check for Fedora, Deb, OS X and BSD.
+setup_env
 command -v node >/dev/null 2>&1 || { echo >&2 " Node is not installed"; node_install ; } # If [ return 1 ] install node else rm_node
 command -v npm >/dev/null 2>&1 || { echo >&2 " Node is not installed"; npm_install ; }	# Same with npm
 get_knotes
