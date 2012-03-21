@@ -55,7 +55,7 @@
       <h2 style="font-family: 'Architects Daughter', cursive;"><b>drop your notes below to share!</b></h2>
       <div id="hero-unit" style="padding:10px;text-align:center">
         <div id="drop-area" style="z-index:0;padding:10px;width:40%;margin:auto;position:relative;">
-        <img src="http://localhost:3000/img/ohm.svg" style="opacity:.1;width:300px"/>
+        <img src="http://karmanotes.org/img/ohm.svg" style="opacity:.1;width:300px"/>
         </div>
         <p><a class="btn" href="">notes</a>  <a class="btn" href="">profile</a>  <a class="btn" href="">about</a></p>
         <table id="file-list" style="background:#ffffff;opacity:1;width:70%;cell-padding:5px;margin-left:auto;margin-right:auto;margin-top:-300px;z-index:1"></table>
@@ -85,7 +85,7 @@
     progressBar = document.createElement("div");
       $('#file-list').fileupload({
           dataType: 'json',
-          url: 'http://localhost:8080',
+          url: 'http://karmanotes.org:8080',
           done: function (e, data) {
               $.each(data.result, function (index, file) {
               	fileList = document.getElementById("file-list");
