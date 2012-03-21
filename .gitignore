@@ -1,5 +1,5 @@
-.DS_Store
+*.DS_Store
 node_modules/*
-.un~
-.swp
-.swo
+*.un~
+*.swp
+*.swo
