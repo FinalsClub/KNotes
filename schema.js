@@ -55,8 +55,9 @@ var CourseSchema = new Schema({
   title     : String,
   professor : String,
   field     : String,
-  daysofwk  : String,  // e.g., MoWeFr
-  hour      : String,
+  acadYear  : String,
+  daysofwk  : String,  // e.g., MoWeFr  optional field
+  hour      : String, // optionl field
   notes     : [Schema.ObjectId],
   tags      : [String]
 });
@@ -77,6 +78,7 @@ var VoteSchema = new Schema({
 var NoteSchema = new Schema({
   contributorID : Schema.ObjectId,
   field         : String,
+  desc          : String,
   origfiletype  : String,
   origfilebytes : Number,
   origfilecontent : String,
