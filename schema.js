@@ -20,14 +20,14 @@ var ReputationEvents = [
 // author is the user who instigated the ReputationEvent;
 // this user if null;
 var ReputationEventSchema = new Schema ({
-  descr     : String,
+  desc      : String,
   value     : Number,
   authorID  : Schema.ObjectId,
   timestamp : Date
 });
 var UserSchema = new Schema({
   name        : String,
-  schoolID    : School.ObjectId,
+  schoolID    : Schema.ObjectId,
   otherSchool : String,
   gradYear    : String,
   email       : String,
@@ -61,11 +61,12 @@ var CourseSchema = new Schema({
   tags      : [String]
 });
 var SchoolSchema = new Schema({
-  name     : String,
-  location : String,
-  url      : String,
-  courses  : [CourseSchema],
-  tags     : [String]
+  name      : String,
+  location  : String,
+  url       : String,
+  courses   : [CourseSchema],
+  tags      : [String],
+  hostnames : [String] // e.g., alumni.upenn.edu
 });
 
 //===== NOTES ====================================
@@ -78,8 +79,8 @@ var NoteSchema = new Schema({
   field         : String,
   origfiletype  : String,
   origfilebytes : Number,
-  origfilecontent : Blob,
-  htmlcontent   : Blob,
+  origfilecontent : String,
+  htmlcontent   : String,
   votes         : [VoteSchema],
   tags          : [String]
 });
