@@ -45,6 +45,7 @@
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
   </head>
 
   <body>
@@ -70,6 +71,11 @@
 </div>
 -->
 <script>
+    $(document).ready(function() {
+      // put all your jQuery goodness in here.
+    });
+</script>
+<script>
   var fileListHeaderDrawn = false;
   function nodeToString ( node ) {
               var tmpNode = document.createElement( "div" );
@@ -80,7 +86,6 @@
             }
 
   $(function () {
-    //Seems like these elements are available to 
   	progressBarContainer = document.createElement("div"),
     progressBar = document.createElement("div");
       $('#file-list').fileupload({

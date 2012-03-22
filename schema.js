@@ -26,10 +26,10 @@ var ReputationEventSchema = new Schema ({
   timestamp : Date
 });
 var NoteDescriptionSchema = new Schema ({
-    title         : String,
-    field         : String,
-    desc          : String,
-    NoteID        : Schema.ObjectID,
+  title         : String,
+  field         : String,
+  desc          : String,
+  NoteID        : Schema.ObjectId
 });  // Attention... this is meant to display all of a user's downlaods and uploads... see userschema below.
 var UserSchema = new Schema({
   name        : String,
@@ -38,8 +38,8 @@ var UserSchema = new Schema({
   gradYear    : String,
   email       : String,
   facebookid  : String,
-  notesUp     : [NoteDescription],  // displayed on the profile page - notes uploaded by a user 
-  notesDown   : [NoteDescription],  // displayed on the profile page - notes downloaded by a user 
+  notesUp     : [NoteDescriptionSchema],  // displayed on the profile page - notes uploaded by a user 
+  notesDown   : [NoteDescriptionSchema],  // displayed on the profile page - notes downloaded by a user 
   karmas      : [ReputationEventSchema],
   privileges  : {
     canUpload   : Boolean,
