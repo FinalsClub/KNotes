@@ -25,6 +25,12 @@ var ReputationEventSchema = new Schema ({
   authorID  : Schema.ObjectId,
   timestamp : Date
 });
+var NoteDescriptionSchema = new Schema ({
+  title         : String,
+  field         : String,
+  desc          : String,
+  NoteID        : Schema.ObjectId
+});  // Attention... this is meant to display all of a user's downlaods and uploads... see userschema below.
 var UserSchema = new Schema({
   name        : String,
   schoolID    : Schema.ObjectId,
@@ -32,6 +38,8 @@ var UserSchema = new Schema({
   gradYear    : String,
   email       : String,
   facebookid  : String,
+  notesUp     : [NoteDescriptionSchema],  // displayed on the profile page - notes uploaded by a user 
+  notesDown   : [NoteDescriptionSchema],  // displayed on the profile page - notes downloaded by a user 
   karmas      : [ReputationEventSchema],
   privileges  : {
     canUpload   : Boolean,
@@ -55,8 +63,9 @@ var CourseSchema = new Schema({
   title     : String,
   professor : String,
   field     : String,
-  daysofwk  : String,  // e.g., MoWeFr
-  hour      : String,
+  acadYear  : String,
+  daysofwk  : String,  // e.g., MoWeFr  optional field
+  hour      : String, // optionl field
   notes     : [Schema.ObjectId],
   tags      : [String]
 });
@@ -77,10 +86,12 @@ var VoteSchema = new Schema({
 var NoteSchema = new Schema({
   contributorID : Schema.ObjectId,
   field         : String,
+  desc          : String,
   origfiletype  : String,
   origfilebytes : Number,
   origfilecontent : String,
   htmlcontent   : String,
+  viewCount     : Number,  // number of views of the HTML content of a given Note.
   votes         : [VoteSchema],
   tags          : [String]
 });

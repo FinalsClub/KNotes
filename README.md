@@ -17,7 +17,9 @@ II. User Activities
 
 2. By clicking a link in the user's email, the user will be taken to a page and asked to enter a username and password to create an account.
 
-3. The user is then taken to a profile page, which he/she can complete to earn Karma Points.  The fields available are:
+3. The user is then taken to a profile page, which he/she can complete to earn Karma Points.  
+Sample drawing: http://dl.dropbox.com/u/15975779/KarmaNotes%20Drawings/photo%202.JPG
+The fields available are:
 	1. Connect to Facebook
 	2. School
 	3. Year of graduation
