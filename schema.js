@@ -91,6 +91,7 @@ var NoteSchema = new Schema({
   origfilebytes : Number,
   origfilecontent : String,
   htmlcontent   : String,
+  viewCount     : Number,  // number of views of the HTML content of a given Note.
   votes         : [VoteSchema],
   tags          : [String]
 });
