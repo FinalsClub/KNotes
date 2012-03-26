@@ -97,3 +97,41 @@ I've dropped in blueimp's file uploading service (/node_modules/blueimp-file-upl
 *Note* For now, you must explicitly run the upload service (/node_modules/blueimp-file-upload-node/server.js) before testing with /index.html.
 
 Files are currently stored in /node_modules/blueimp-file-upload-node/public
+
+Mongo and Mongoose Guide
+========================
+Install:
+
+brew update
+brew install mongodb
+
+Run mongo:
+mongod
+-or-
+mongod run --config /usr/local/Cellar/mongodb/2.0.2-i386/mongod.conf
+
+Mongo shell:
+mongo
+-or-
+/usr/local/Cellar/mongodb/2.0.2-i386/bin/mongo
+
+Mongo import:
+mongoimport -d DATABASE -c COLLECTION importfile.json
+  
+Show databases:
+show dbs
+
+Switch database:
+use database
+
+Show collections in current database:
+show collections
+
+// DB.COLLECTION.ACTION
+db.things.save({item});
+db.things.find();
+it    // return rest of cursor objects
+var cursor = db.things.find();
+while(cursor.hasNext())
+  
+

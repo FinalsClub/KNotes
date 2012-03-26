@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Karma Notes</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <style type="text/css">
+      body{
+        margin-top:60px;
+        font-family: 'Architects Daughter', cursive;
+        font-size: 18px;
+      }
+      a.btn{
+        font-size:20px;
+        
+        font-family: 'Architects Daughter', cursive;
+      }
+      p{
+        font-family: 'Architects Daughter', cursive;
+        font-size:20px;
+      }
+      a:visited{
+      }
+      a:active{
+      }
+      a:hover {
+      }
+    </style>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+</head>
+
+<body>
+  <div class="container-fluid" style="text-align:center;" >
+    <h1 style="font-family: 'Architects Daughter', cursive;color:#025DB8;font-size:4.5em">Karma Notes</h1>
+  </div>
+
+<!-- ========= ACCORDION ============================================== -->
+<style>
+#simpleAcc {
+  width: 800px;
+  margin: 3em auto;
+  padding: 5em;
+  background-color: wheat;
+}
+.schoolBtn {
+  width: 600px;
+  background: #C2DFFF;
+  border: 1px solid black;
+  cursor: pointer;
+}
+.coursesOfSchool {
+  width: 300px;
+  margin-left: 20px;
+  background: #BDEDFF;
+  cursor: pointer;
+  display: none;
+}
+.notesOfCourse {
+  width: 300px;
+  margin-left: 40px;
+  background: #EFFFFF;
+  cursor: pointer;
+  display: none;
+}
+</style>
+<div id="simpleAcc">
+  <!-- =============================== -->
+  <div id="BU-Btn" class="schoolBtn">Boston University</div>
+  <div class="coursesOfSchool">
+    <div id="BU-111-Btn" class="courseBtn">Accounting 101</div>
+    <!-- the divs with class="notesOfCourse" will be served via Ajax
+         when the schoolBtn is clicked:
+         The JSON returned looks like this:
+         { "schoolName": "BU",
+           "noteDesc": [
+             { "course": "BU-111",
+               "noteDesc": [ 'foo desc', 'bar desc', baz desc' ]
+             },
+             { . . . }
+           ]
+         }
+    -->
+    <div class="notesOfCourse">
+      <ul>
+        <li>The first note's description</li>
+        <li>The second note's description</li>
+        <li>The third note's description</li>
+      </ul>
+    </div>
+    <div id="BU-222-Btn" class="courseBtn">Computer Science 50</div>
+    <div class="notesOfCourse">
+      <ul>
+        <li>The first note's description</li>
+        <li>The second note's description</li>
+        <li>The third note's description</li>
+      </ul>
+    </div>
+    <div id="BU-333-Btn" class="courseBtn">Economics 10</div>
+    <div class="notesOfCourse">
+      <ul>
+        <li>The first note's description</li>
+        <li>The second note's description</li>
+        <li>The third note's description</li>
+      </ul>
+    </div>
+  </div><!-- coursesOfSchool BU -->
+
+  <!-- =============================== -->
+  <div id="Brown-Btn" class="schoolBtn">Brown</div>
+  <div class="coursesOfSchool">
+    Content 2<br /><br /><br /><br /><br />Medium Example
+  </div>
+
+  <!-- =============================== -->
+  <div id="Harvard-Btn" class="schoolBtn">Harvard</div>
+  <div class="coursesOfSchool courseBtn">Content 1<br />Short Example
+  </div>
+
+  <!-- =============================== -->
+  <div id="Yale-Btn" class="schoolBtn">Yale</div>
+  <div class="coursesOfSchool courseBtn">Content 4<br /><br /><br /><br /><br />
+                                       <br /><br /><br /><br /><br /><br /><br />
+                                       <br /><br /><br /><br />Extra Long Example
+  </div>
+</div> <!-- simpleAcc -->
+
+<script>
+  $(document).ready(function() {
+    // schoolBtn click handler: clicking on open panel closes it; clicking on
+    // closed panel closes any open panel and opens the clicked panel;
+    $('div.schoolBtn').click(function() {
+      var clickedWasNotActive = !$(this).hasClass('active');
+      // target 'em all (tough for the CPU);
+      $('div.coursesOfSchool').slideUp('normal');
+      $('div.schoolBtn').removeClass('active');
+      if (clickedWasNotActive) {
+        $(this).addClass('active').next().slideDown('normal');
+        var schoolName = $(this).attr('id').slice(0, -4); // remove "-Btn";
+        console.log("schoolName: " + schoolName);
+        // David: this is your department!
+        var url = "/school/" + schoolName;
+        $.getJSON(url, function(data) {
+          if (data.schoolName !== schoolName) { /* raise an error */ }
+          $.each(data.noteDescs, function(noteDescObj) {
+            var noteHTML = '<li>' + noteDescObj.descs.join('</li><li>') + '</li>';
+            var html = '<div class="notesOfCourse"><ul>' + noteHTML +
+                       '</ul></div>'
+            $("#" + noteDescObj.course + "-Btn").after(html);
+          });        
+        });
+      }
+    });
+    // courseBtn click handler: same as schoolBtn;
+    $('div.courseBtn').click(function() {
+      var clickedWasNotActive = !$(this).hasClass('active');
+      // target 'em all (tough for the CPU);
+      $('div.notesOfCourse').slideUp('normal');
+      $('div.courseBtn').removeClass('active');
+      if (clickedWasNotActive) {
+        $(this).addClass('active').next().slideDown('normal');
+      }
+    });
+  });
+</script>
+<!-- ========= END ACCORDION ========================================== -->
+
+</body> 
+</html>

@@ -6,7 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , auth = require('connect-auth')
-  , mongoose = require('./schema').mongoose
+  , mongoose = require('./schema.js').mongoose;
 
 
 /**
@@ -18,9 +18,9 @@ var hostname = process.env.SERVER_HOST
 // Import the app wrapper object from express
 var app = express.createServer()
 // Mongoose (database) configuration
-mongoose.connect('mongodb://localhost/kn');
-var Note    = mongoose.model( 'Note' );
-var User    = mongoose.model( 'User' );
+//mongoose.connect('mongodb://localhost/kn');
+//var Note    = mongoose.model( 'Note' );
+//var User    = mongoose.model( 'User' );
 
 
 /**
@@ -53,8 +53,14 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
-app.get('/note', routes.notes);
-app.post('/upload', routes.upload);
+// routes.notes is not found if stored in notes.js. Hmm
+app.get('/notes', routes.notes);
+//app.post('/upload', routes.upload);
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
+// I want to share the mongoose connection with routes
+// not sure this is the ideal way
+
+exports.mongoose = mongoose;

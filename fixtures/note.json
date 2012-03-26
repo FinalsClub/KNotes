@@ -1,1 +1,3 @@
-{'field' : 'English', 'origfiletype' : 'doc', 'origfilebyes' : 4096, 'tags' : ['1661', 'harvard'], 'htmlcontent' : '<div>foo bar baf example</div>' }
+{"_id" : { "$oid" : "4e5bb37258200ed9aabc1d65" }, "field" : "English", "origfiletype" : "doc", "origfilebyes" : 4096, "tags" : ["1661", "harvard"], "htmlcontent" : "<div>foo bar baf example</div>" }
+{"_id" : { "$oid" : "4e5bb37258200ed9aabc2d65" }, "field" : "Computer Science", "origfiletype" : "doc", "origfilebyes" : 8192, "tags" : ["321", "mit"], "htmlcontent" : "<div>Computers began long ago. Today, they are all around us</div>" }
+{"_id" : { "$oid" : "4e5bb37258200ed9aabc3d65" }, "field" : "Computer Science", "origfiletype" : "doc", "origfilebyes" : 8193, "tags" : ["235", "brown"], "htmlcontent" : "<div>Computers indeed began long ago. Today, they are indeed around us all.</div>" }
