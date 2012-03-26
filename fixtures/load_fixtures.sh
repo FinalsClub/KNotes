@@ -3,9 +3,9 @@
 #mongoimport -d kn -c note note.json
 
 #Insert note records
-mongoimport -d kn -c Note note.json
+mongoimport -d kn -c notes note.json
 
 #Insert school records, with nested course info
-mongoimport -d kn -c School schools.json
+mongoimport -d kn -c schools schools.json
 
 
