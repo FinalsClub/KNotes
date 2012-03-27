@@ -15,7 +15,7 @@ exports.notes = function(req, res){
   mongoose.connect('mongodb://localhost/kn');
 
   // Get object with access to database collection
-  var School  = mongoose.model( 'School' );
+  var SchoolAccObj  = mongoose.model( 'School' );
   //var Note    = mongoose.model( 'Note' );
 
   // Example: Create new document in collection
@@ -24,8 +24,21 @@ exports.notes = function(req, res){
   //noteInstance.field = 'English';
   //noteInstance.save();
 
-  School.find({}, function(err, docs){
-    res.send(docs);
+
+  //   The JSON returned looks like this:
+  //     { "schoolName": "BU",
+  //       "courses": [
+  //         { "course": "BU-111",
+  //           "noteDesc": [ 'foo desc', 'bar desc', baz desc' ]
+  //         },
+  //         { . . . }
+  //       ]
+  //     }
+  var schoolToPopulate = "Harvard";
+  SchoolAccObj.find({name: schoolToPopulate},
+                    ['name', 'courses.title', 'courses.notes'],
+                    function(err, jsonObj){
+    res.send(jsonObj);
   });
   //res.sendfile( 'public/index.html' );
   //res.send(School.count());

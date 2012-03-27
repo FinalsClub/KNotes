@@ -53,6 +53,10 @@ var UserSchema = new Schema({
 });
 
 //===== SCHOOLS ===================================
+var NoteDesc = new Schema({
+  id: Schema.ObjectId,
+  noteDesc: String
+});
 var fields = [
   "English", 
   "Computer Science"
@@ -62,11 +66,11 @@ var fields = [
 var CourseSchema = new Schema({
   title     : String,
   professor : String,
-  field     : String,
+  field     : { type: String, enum: fields },
   acadYear  : String,
-  daysofwk  : String,  // e.g., MoWeFr  optional field
+  daysOfWk  : String,  // e.g., MoWeFr  optional field
   hour      : String, // optionl field
-  notes     : [Schema.ObjectId],
+  notes     : [NoteDesc],
   tags      : [String]
 });
 var SchoolSchema = new Schema({
@@ -85,7 +89,7 @@ var VoteSchema = new Schema({
 });
 var NoteSchema = new Schema({
   contributorID : Schema.ObjectId,
-  field         : String,
+  field         : { type: String, enum: fields },
   desc          : String,
   origfiletype  : String,
   origfilebytes : Number,
