@@ -23,7 +23,6 @@ exports.notes = function(req, res){
   //var noteInstance = new Note();
   //noteInstance.field = 'English';
   //noteInstance.save();
-  
 
   School.find({}, function(err, docs){
     res.send(docs);

@@ -18,8 +18,8 @@ var hostname = process.env.SERVER_HOST
 // Import the app wrapper object from express
 var app = express.createServer()
 // Mongoose (database) configuration
-//mongoose.connect('mongodb://localhost/kn');
-//var Note    = mongoose.model( 'Note' );
+mongoose.connect('mongodb://localhost/kn');
+var Note    = mongoose.model( 'Note' );
 //var User    = mongoose.model( 'User' );
 
 
@@ -57,18 +57,18 @@ console.dir(routes.note);
 app.get('/', routes.index);
 // routes.notes is not found if stored in notes.js. Hmm
 app.get('/notes', routes.notes);
-//app.post('/upload', routes.upload);
 app.post('/upload', routes.upload);
-app.get('/notes', function(req, res){
+/*app.get('/notes', function(req, res){
   console.log('inside the note route');
   console.log(Note);
   Note.find({}).run( function( err, notes ){
     if(err) console.log(err);
     console.log('notes');
     console.log(notes);
-    res.json(notes)
+    res.json(notes);
   });
 });
+*/
 
 // Exception Catch-All
 process.on('uncaughtException', function (e) {
