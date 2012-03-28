@@ -32,7 +32,8 @@ var app = express.createServer()
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  // TODO: I think app.use assures that we have a thing completed before the route loads. Putting the mongoose connect here should work
+  // app.use loads statements we want available to every route.
+  // We should put mongoose.connect here. but maybe we should only load models as needed in routes.
   app.use(mongoose.connect('mongodb://localhost/kn'));
   app.use(express.bodyParser({uploadDir:'./upload'}));
   app.use(express.methodOverride());
