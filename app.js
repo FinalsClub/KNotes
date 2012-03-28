@@ -18,8 +18,7 @@ var hostname = process.env.SERVER_HOST
 // Import the app wrapper object from express
 var app = express.createServer()
 // Mongoose (database) configuration
-mongoose.connect('mongodb://localhost/kn');
-var Note    = mongoose.model( 'Note' );
+//var Note    = mongoose.model( 'Note' );
 //var User    = mongoose.model( 'User' );
 
 
@@ -33,6 +32,8 @@ var Note    = mongoose.model( 'Note' );
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
+  // TODO: I think app.use assures that we have a thing completed before the route loads. Putting the mongoose connect here should work
+  app.use(mongoose.connect('mongodb://localhost/kn'));
   app.use(express.bodyParser({uploadDir:'./upload'}));
   app.use(express.methodOverride());
   app.use(express.cookieParser());

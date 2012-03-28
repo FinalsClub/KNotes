@@ -12,11 +12,11 @@ exports.notes = function(req, res){
   //res.render('index.html', { title: 'Values to be rendered go here' })
 
   // connect to Mongo database
-  mongoose.connect('mongodb://localhost/kn');
+  //mongoose.connect('mongodb://localhost/kn');
 
   // Get object with access to database collection
-  var School  = mongoose.model( 'School' );
-  //var Note    = mongoose.model( 'Note' );
+  //var School  = mongoose.model( 'School' );
+  var Note    = mongoose.model( 'Note' );
 
   // Example: Create new document in collection
   // Gotcha: This saves the note in collection "notes"
@@ -24,8 +24,9 @@ exports.notes = function(req, res){
   //noteInstance.field = 'English';
   //noteInstance.save();
 
-  School.find({}, function(err, docs){
-    res.send(docs);
+  Note.find({}, function(err, docs){
+    console.log(err);
+    res.json(docs);
   });
   //res.sendfile( 'public/index.html' );
   //res.send(School.count());
