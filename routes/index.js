@@ -11,6 +11,7 @@ exports.index = function(req, res){
 exports.notes = function(req, res){
   //res.render('index.html', { title: 'Values to be rendered go here' })
 
+<<<<<<< HEAD
   //   The JSON returned looks like this:
   //     { "schoolName": "BU",
   //       "courses": [
@@ -30,6 +31,22 @@ exports.notes = function(req, res){
                     ['name', 'courses.title', 'courses.notes'],
                     function(err, obj){
     res.json(obj);
+=======
+  // Get object with access to database collection
+  //var School  = mongoose.model( 'School' );
+  var Note    = mongoose.model( 'Note' );
+
+  // Example: Create new document in collection
+  // Gotcha: This saves the note in collection "notes"
+  //var noteInstance = new Note();
+  //noteInstance.field = 'English';
+  //noteInstance.save();
+
+  Note.find({}, function(err, docs){
+    console.log(err);
+    // res.json will send the jsonified version of an object
+    res.json(docs);
+>>>>>>> 61bc6f6f915756064dde8c104afb3758268fbe62
   });
   //res.sendfile( 'public/index.html' );
   //res.send(School.count());

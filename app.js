@@ -10,6 +10,10 @@ var routes   = require('./routes');
 
 var app = express.createServer()
 
+// Mongoose (database) configuration
+//var Note    = mongoose.model( 'Note' );
+//var User    = mongoose.model( 'User' );
+
 /**
  * App configuration in three parts:
  *  - General configuration
@@ -20,9 +24,10 @@ var app = express.createServer()
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  // app.use loads statements we want available to every route.	
-  // mongoose.connect thus belongs here but models are loaded as needed.
-  app.use(mongoose.connect('mongodb://localhost/kn'));	
+
+  // app.use loads statements we want available to every route.
+  // We should put mongoose.connect here. but maybe we should only load models as needed in routes.
+  app.use(mongoose.connect('mongodb://localhost/kn'));
   app.use(express.bodyParser({uploadDir:'./upload'}));
   app.use(express.methodOverride());
   app.use(express.cookieParser());
