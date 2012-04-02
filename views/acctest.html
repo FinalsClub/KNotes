@@ -148,7 +148,7 @@
         var schoolName = $(this).attr('id').slice(0, -4); // remove "-Btn";
         console.log("schoolName: " + schoolName);
         // David: this is your department!
-        var url = "/notes/" + schoolName;
+        var url = "/school/" + schoolName;
         $.getJSON(url, function(data) {
           if (data.schoolName !== schoolName) { /* raise an error */ }
           $.each(data.noteDescs, function(noteDescObj) {
