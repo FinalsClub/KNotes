@@ -29,6 +29,7 @@ exports.notes = function(req, res){
   SchoolAccObj.find({name: schoolToPopulate},
                     ['name', 'courses.title', 'courses.notes'],
                     function(err, obj){
+    console.log(err);
     res.json(obj);
   });
   //res.sendfile( 'public/index.html' );
