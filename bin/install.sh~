@@ -1,5 +1,7 @@
 #!/bin/bash
 # Karma Notes dev. env deployment script Alpha 0.01
+# This script has been tested on:
+# * ubuntu server-11.10
 # Finals Club MongoDB backup script
 #
 # Copyright (C) 2012  Robert Call

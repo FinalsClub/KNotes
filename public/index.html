@@ -15,16 +15,13 @@
     <style type="text/css">
       body{
         margin-top:60px;
-        font-family: 'Architects Daughter', cursive;
         font-size: 18px;
       }
       a.btn{
         font-size:20px;
         
-        font-family: 'Architects Daughter', cursive;
       }
       p{
-        font-family: 'Architects Daughter', cursive;
         font-size:20px;
       }
       a:visited{
@@ -32,6 +29,26 @@
       a:active{
       }
       a:hover {
+      }
+      .coursesOfSchool{
+        margin-left: 20px;
+        text-align:left;
+      }
+      .notesOfCourse{
+        font-size:14px;
+        margin-left: 40px;
+        text-align:left;
+      }
+      .schoolBtn{
+        font-size:18px;
+        font-weight:bold;
+        text-align:left;
+      }
+      #responseContainer{
+        width:500px;
+        margin-left:auto;
+        margin-right:auto;
+        text-align:center;
       }
     </style>
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -51,17 +68,21 @@
   <body>
 
     <div class="container-fluid" style="text-align:center" >
-      <h1 style="font-family: 'Architects Daughter', cursive;color:#025DB8;font-size:450%">Karma Notes</h1>
+      <h1 style="font-family: 'Helvetica'; color:#025DB8;font-size:350%">Karma Notes</h1>
       
-      <h2 style="font-family: 'Architects Daughter', cursive;"><b>drop your notes below to share!</b></h2>
+      <h2 style="font-family: 'Helvetica';"><b>drop your notes below to share!</b></h2>
       <div id="hero-unit" style="padding:10px;text-align:center">
         <div id="drop-area" style="z-index:0;padding:10px;width:40%;margin:auto;position:relative;">
         <img src="http://karmanotes.org/img/ohm.svg" style="opacity:.1;width:300px"/>
         </div>
-        <p><a class="btn" href="">notes</a>  <a class="btn" href="">profile</a>  <a class="btn" href="">about</a></p>
-        <table id="file-list" style="background:#ffffff;opacity:1;width:70%;cell-padding:5px;margin-left:auto;margin-right:auto;margin-top:-300px;z-index:1"></table>
+        
+        
         
     </div><!-- /hero-unit -->
+    <div style="padding:20px;">
+        <p><a class="btn" id="notes-btn" >notes</a>  <a class="btn" href="">profile</a>  <a class="btn" href="">about</a></p>
+      </div>
+      <table id="file-list" style="background:#ffffff;opacity:1;width:70%;cell-padding:5px;margin-left:auto;margin-right:auto;margin-top:-320px;z-index:1"></table>
 
     </div> <!-- /container -->
 <!-- Also allow form file selection?
@@ -71,60 +92,134 @@
 </div>
 -->
 <script>
+    var state = 'home';
     $(document).ready(function() {
-      // put all your jQuery goodness in here.
-    });
-</script>
-<script>
-  var fileListHeaderDrawn = false;
-  function nodeToString ( node ) {
-              var tmpNode = document.createElement( "div" );
-              tmpNode.appendChild( node.cloneNode( true ) );
-              var str = tmpNode.innerHTML;
-              tmpNode = node = null; // prevent memory leaks in IE
-              return str;
-            }
+      // courseBtn click handler: same as schoolBtn;
 
-  $(function () {
-  	progressBarContainer = document.createElement("div"),
-    progressBar = document.createElement("div");
-      $('#file-list').fileupload({
-          dataType: 'json',
-          url: 'http://karmanotes.org:8080',
-          done: function (e, data) {
-              $.each(data.result, function (index, file) {
-              	fileList = document.getElementById("file-list");
-              	tr = document.createElement("tr");
-              	
-                progressBarContainer.className = "progress progress-striped active";
-              	progressBar.className = "bar";
-              	progressBarContainer.appendChild(progressBar);
+      // notes button listener
+      $('#notes-btn').click(function (event) 
+      { 
+        //$("#hero-unit").accordion();
+        event.preventDefault(); 
+        state = 'notes';
+        // hide file-drop area
+        $('#drop-area').hide();
 
-                if (fileListHeaderDrawn == false){
-                  headerRow = document.createElement("tr");
-                  headerRow.innerHTML = "<td><b>Name</b></td><td><b>Size</b></td><td><b>Progress</b></td>"
-                  fileList.appendChild(headerRow);
-                  fileListHeaderDrawn = true;
+        //clear hero-unit of previous content
+        $('#hero-unit').empty();
+
+        // request schools / courses data via ajax
+        $.ajax({
+        // URL of data, with the last time
+          url: '/schools',
+          dataType:'json',
+          success: function(data) {
+              //number of schools
+              var schools = data.length;
+
+                  // Walk backward through the array, adding each new item 
+                  //    to the top of the container
+                  $('<div/>', {id: "responseContainer"})
+                      .appendTo( '#hero-unit' );
+
+              while(schools--) {
+                       // Create new .container div
+                  $('<div/>', {class:'schoolBtn', id: data[schools]._id+"-Btn", text:data[schools]['name']})
+                      .appendTo( '#responseContainer' );
+
+                       // Append new divs to the $container with proper class and data.
+                       // data[length][...] uses the current index stored in the length variable
+                      $('#responseContainer').append( $('<div/>', {id: data[schools]._id+"-Courses",class:'coursesOfSchool'} ) )
+                      //.prependTo( '#hero-unit' );
+                      //var courses = data[schools].length;
+                      
+                      for(x=0;x<data[schools].courses.length;x++){
+                        $('#'+data[schools]._id+"-Courses").append( $('<div/>', {id: data[schools].courses[x]._id,class:'courseBtn', text:data[schools].courses[x]['title']} ) );
+                      }
+
+                      //.append( $('<div/>', {className:'course', text:data[length]['message']} ) )
+
+                       // Prepend $container to the #hero-unit div
+                      
+              } // end school iteration & page population
+
+              // course Btn listeners to fetch course notes
+              $('.courseBtn').click(function() {
+                          //alert('/notes/'+this.id);
+                          if($('#'+this.id+' > div').length == 0){
+                            //alert('children: ' + $('#'+this.id+' > div').length);
+                            $.ajax({
+                            url: '/notes/'+this.id,
+                            dataType:'json',
+                            success: function(data) {
+                              var notes = data.length;
+                              
+                              //alert('#'+data[0].courses[0]._id );
+                              $('<div/>', {class: "notesOfCourse", id: data[0].courses[0].notes[0]._id, text: data[0].courses[0].notes[0].text}).appendTo($('#'+data[0].courses[0]._id ));
+
+                            }});
+                          }
+                        });
+              
+          } // end ajax success function
+      }); // end Notes ajax
+        
+      }); // end Notes button listener
+
+      var fileListHeaderDrawn = false;
+      function nodeToString ( node ) {
+                  var tmpNode = document.createElement( "div" );
+                  tmpNode.appendChild( node.cloneNode( true ) );
+                  var str = tmpNode.innerHTML;
+                  tmpNode = node = null; // prevent memory leaks in IE
+                  return str;
                 }
-                  
-                fileInfo = "<td>"+file.name +"</td>";
-                fileInfo += "<td>"+ (Math.round(file.size/(100000))/10) + " MB</td>";
-                fileInfo += "<td>" + nodeToString( progressBarContainer)+"</td>";
-                tr.innerHTML = fileInfo;
-                fileList.appendChild(tr);
-              });
-          },
-          progress: function (e, data) {
-        		var progress = parseInt(data.loaded / data.total * 100, 10);
-        		progressBar.style.width = progress+"%";
-        		//alert(progressBar.style.width);
-        		if (progress == 100){
-        			progressBar.style.width = "0%";
-        			progressBarContainer.innerHTML = "Done";
-        		}
-  		    }
-      });
+
+      $(function () {
+        progressBarContainer = document.createElement("div"),
+        progressBar = document.createElement("div");
+          $('#file-list').fileupload({
+              dataType: 'json',
+              url: 'http://karmanotes.org:8080',
+              done: function (e, data) {
+                  $.each(data.result, function (index, file) {
+                    fileList = document.getElementById("file-list");
+                    tr = document.createElement("tr");
+                    
+                    progressBarContainer.className = "progress progress-striped active";
+                    progressBar.className = "bar";
+                    progressBarContainer.appendChild(progressBar);
+
+                    if (fileListHeaderDrawn == false){
+                      headerRow = document.createElement("tr");
+                      headerRow.innerHTML = "<td><b>Name</b></td><td><b>Size</b></td><td><b>Progress</b></td>"
+                      fileList.appendChild(headerRow);
+                      fileListHeaderDrawn = true;
+                    }
+                      
+                    fileInfo = "<td>"+file.name +"</td>";
+                    fileInfo += "<td>"+ (Math.round(file.size/(100000))/10) + " MB</td>";
+                    fileInfo += "<td>" + nodeToString( progressBarContainer)+"</td>";
+                    tr.innerHTML = fileInfo;
+                    fileList.appendChild(tr);
+                  });
+              },
+              progress: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                progressBar.style.width = progress+"%";
+                //alert(progressBar.style.width);
+                if (progress == 100){
+                  progressBar.style.width = "0%";
+                  progressBarContainer.innerHTML = "Done";
+                }
+              } // end progress
+          }); // end file list populating
+      }); // end file drag-n-drop
+
+      
+    
   });
+
 </script>
 </body> 
 </html>
