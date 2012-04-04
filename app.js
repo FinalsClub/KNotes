@@ -50,9 +50,12 @@ console.dir(routes);
 app.get('/', routes.index);
 // routes.notes is not found if stored in notes.js. Hmm
 // notes will return a set of notes given a courseID
+app.get('/searchBySchool', routes.searchBySchool);
+app.get('/notesOfSchool/:school', routes.notesOfSchool);
+app.post('/upload', routes.upload);
+
 app.get('/notes/:course', routes.notes);
 app.get('/schools', routes.schools);
-app.post('/upload', routes.upload);
 /*app.get('/notes', function(req, res){
   console.log('inside the note route');
   console.log(Note);

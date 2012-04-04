@@ -11,6 +11,7 @@ exports.index = function(req, res){
   res.sendfile( 'public/index.html' );
 };
 
+// NOW: obsolete;
 exports.notes = function(req, res){
   //res.render('index.html', { title: 'Values to be rendered go here' })
   //   The JSON returned looks like this:
@@ -53,6 +54,31 @@ exports.schools = function(req, res){
   });
   // res.render('testquery.html', 
   //            { title: 'Values to be rendered go here' });
+};
+
+exports.searchBySchool = function(req, res){
+  mongoose.connect('mongodb://localhost/kn');
+  var SchoolAccObj  = mongoose.model( 'School' );
+  // retrieve all schools, all courses;
+  SchoolAccObj.find({},
+                    ['name', 'courses.title', 'courses._id'],
+                    function(err, jsonObj){
+                      res.send(jsonObj);
+                    }
+  );
+};
+
+exports.notesOfSchool = function(req, res){
+  mongoose.connect('mongodb://localhost/kn');
+  var SchoolAccObj  = mongoose.model( 'School' );
+  // retrieve all notes for given school;
+  var schoolId = req.params.school;
+  SchoolAccObj.find({_id: schoolID},
+                    ['name', 'courses.title', 'courses._id'],
+                    function(err, jsonObj){
+                      res.send(jsonObj);
+                    }
+  );
 };
 
 
