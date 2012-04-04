@@ -48,7 +48,7 @@ exports.schools = function(req, res){
   var SchoolAccObj  = mongoose.model( 'School' );
   // retrieve all schools, all courses;
   SchoolAccObj.find({},
-                    ['name', 'courses.title', 'courses._id'],
+                    ['name', 'courses.title', 'courses._id','courses.notes'],
                     function(err, jsonObj){
     res.send(jsonObj);
   });
@@ -73,8 +73,8 @@ exports.notesOfSchool = function(req, res){
   var SchoolAccObj  = mongoose.model( 'School' );
   // retrieve all notes for given school;
   var schoolId = req.params.school;
-  SchoolAccObj.find({_id: schoolID},
-                    ['name', 'courses.title', 'courses._id'],
+  SchoolAccObj.find({_id: schoolId},
+                    ['name', 'courses.title', 'courses._id','courses.notes'],
                     function(err, jsonObj){
                       res.send(jsonObj);
                     }

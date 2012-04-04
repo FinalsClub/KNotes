@@ -125,28 +125,33 @@ $(document).ready(function() {
   });
   
 
-/* ========= David: some problem in here ===============================
+// =========================================================================
   // click on schoolBtn opens accordion and retrieves notes for all courses;
   $('#searchBySchool').on("click", ".schoolBtn", function() {
     // TODO: open school accordion here;
     var schoolID = this.id.slice(0, -4);
     console.log('fetching: /notesOfSchool/' + schoolID);
+
     if ($('#' + this.id + ' > div').length == 0) {
       console.log('children: ' + $('#' + this.id + ' > div').length);
       $.getJSON('/notesOfSchool/' + schoolID, function(coursesArr) {
-        $.each(coursesArr, function(idx, course) {
-          var ulOfNotes = "<ul><li>" + 
-                          course.notes.join("</li><li>") +
-                          "</li></ul>";
-          $('#' + course._id).after(
-            $('<div/>', {class: "notesOfCourse",
-                         text: ulOfNotes})
-          );
-        }):
+        console.log('/notesOfSchool/'+schoolID);
+        $.each(coursesArr[0].courses, function(idx, course) {
+          if($('#' + course._id).next().class != "notesOfCourse"){ // if notes aren't all ready displayed
+            var ulOfNotes = "<ul>";
+            $.each(course.notes, function(idx, note){
+              ulOfNotes += "<li>"+note.text + "</li>";
+            });
+            ulOfNotes += "</ul>"
+            $('#' + course._id).after(
+                $('<div/>', {class: "notesOfCourse"}).innerHTML =ulOfNotes
+              );
+          }
+        });
       });
-    };
+    }
   });
-================================= */
+//================================= 
   
   $('#searchBySchool').on("click", ".courseBtn", function() {
     // open course accordion to display notes;
