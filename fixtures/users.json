@@ -1,0 +1,1 @@
+{'_id': { "$oid" : "4e5bb37258201ed9aabc7d69" }, 'name': "Seth Woodworth", 'schoolID': ObjectId("4e5bb37258200ed99abc9d65"), 'email': "seth@finalsclub.org"}
