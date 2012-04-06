@@ -134,4 +134,11 @@ it    // return rest of cursor objects
 var cursor = db.things.find();
 while(cursor.hasNext())
   
+### Mongod service
+To start Mongo as a service use
 
+    sudo service mongodb start
+
+Having problems getting the mongo service to run? You might need to delete the lock file if you shut down improperly.
+
+    sudo rm /var/lib/mongodb/mongod.lock
