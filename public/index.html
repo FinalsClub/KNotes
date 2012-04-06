@@ -20,68 +20,95 @@
 <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 <style type="text/css">
-  body{
+  #container {
     margin-top:60px;
     font-size: 18px;
+    text-align: center;
   }
-  a.btn{
-    font-size:20px;
-    
+  header {
+    font: bold 350% Helvetica;
+    color: #025DB8;
   }
-  p{
-    font-size:20px;
+  #drop-area {
+    height: 360px;
+    position: relative;
+    z-index: 0;
   }
-  a:visited{
+  #drop-instruction {
+    font: bold 24px Helvetica;
+    padding-bottom: 20px;
   }
-  a:active{
+  #ohm-image {
+    opacity: 0.1;
+    width: 300px;
   }
-  a:hover {
+  #browseForNotes {
+    display: none;
+    height: 306px;
+    margin-top: 3em;
   }
-  .coursesOfSchool{
+  #searchBySchool{
+    width:500px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .schoolBtn {
+    width: 600px;
+    background-color: #C2DFFF;
+    border: 1px solid black;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 5px 5px 5px 10px;
+  }
+  .coursesOfSchool {
+    display: none;
+    width: 600px;
     margin-left: 20px;
-    text-align:left;
+    cursor: pointer;
+  }
+  .courseBtn {
+    padding: 5px 5px 5px 10px;
+    background-color: #BDEDFF;
   }
   .notesOfCourse{
     font-size:14px;
     margin-left: 40px;
     text-align:left;
   }
-  .schoolBtn{
-    font-size:18px;
-    font-weight:bold;
-    text-align:left;
+  footer {
+    padding: 20px;
   }
-  #searchBySchool{
-    width:500px;
-    margin-left:auto;
-    margin-right:auto;
-    text-align:center;
+  #searchForNotesBtn,
+  #profileBtn,
+  #aboutBtn {
+    font-size: 20px;    
   }
 </style>
 </head>
 
 <body>
-<div id="container" class="container-fluid" style="text-align:center" >
-  <h1 style="font-family: 'Helvetica'; color:#025DB8;font-size:350%">Karma Notes</h1>    
-  <h2 style="font-family: 'Helvetica';"><b>drop your notes below to share!</b></h2>
+<div id="container" class="container-fluid">
+  <header>
+    Karma Notes   
+  </header>
 
-  <div id="drop-area" style="z-index:0;padding:10px;width:40%;margin:auto;position:relative;">
-    <img src="http://karmanotes.org/img/ohm.svg" style="opacity:.1;width:300px"/>
+  <div id="drop-area">
+    <div id="drop-instruction">drop your notes below to share!</div>
+    <img id="ohm-image" src="http://karmanotes.org/img/ohm.svg"/>
   </div>
   
   <div id="browseForNotes">
-    <div id="searchBySchool" style="padding:10px;text-align:center">
-    </div><!-- searchBySchool -->
-    <div id="searchByTags">
-    </div>
+    <div id="searchBySchool"></div>
+    <div id="searchByTags"></div>
   </div><!-- browseForNotes -->
   
-  <div id="footer" style="padding:20px;">
-    <p><a class="btn" id="notes-btn" >notes</a>
-       <a class="btn" href="">profile</a>
-       <a class="btn" href="">about</a>
+  <footer>
+    <p><a class="btn" id="searchForNotesBtn">search for notes</a>&nbsp;&nbsp;
+       <a class="btn" id="profileBtn" href="">profile</a>&nbsp;&nbsp;
+       <a class="btn" id="aboutBtn" href="">about</a>
     </p>
-  </div><!-- footer -->
+  </footer>
   
   <table id="file-list" style="background:#ffffff;opacity:1;width:70%;cell-padding:5px;margin-left:auto;margin-right:auto;margin-top:-320px;z-index:1">
   </table>
@@ -96,12 +123,15 @@
 
 <script>
 $(document).ready(function() {
-  $('#searchBySchool').hide();
-  // get school and course info;
+  // get school and course info: (example)
+  // <div id="4e5bb37258200ed9aabc6d65-Btn" class="schoolBtn">Brown</div>
+  // <div id="Brown-Courses" class="coursesOfSchool">
+  //   <div id="4e5bb37258200ed9aabc5d65" class="courseBtn">Accounting 101</div>
+  //   <div id="4e5bb37258200ed9aabc5d66" class="courseBtn">Computer Science 50</div>
+  //   <div id="4e5bb37258200ed9aabc5d67" class="courseBtn">Economics 10</div>
+  // </div><!-- Brown-Courses -->
   $.getJSON('/searchBySchool', function(schoolsArr) {
-    console.log("Got " + schoolsArr.length + " schools");
     $.each(schoolsArr, function(idx, school) {
-      console.dir(school);
       // add a schoolBtn for each school;
       $('#searchBySchool').prepend(
         $('<div/>', {class:'schoolBtn',
@@ -124,43 +154,74 @@ $(document).ready(function() {
     });
   });
   
+  // =========================================================================
+  // toggle to browseForNotes "page" and back;
+  $('#searchForNotesBtn').click(function (event) { 
+    // $('#drop-area').fadeToggle();
+    // $('#browseForNotes').fadeToggle();
+    if ($("#searchForNotesBtn").text() == "search for notes") {
+      $('#drop-area').hide();
+      $('#browseForNotes').fadeIn(1000);
+      $("#searchForNotesBtn").text("upload notes");
+    } else {
+      $('#browseForNotes').hide();
+      $('#drop-area').fadeIn(1000);
+      $("#searchForNotesBtn").text("search for notes");
+    }
+  });
 
-// =========================================================================
-  // click on schoolBtn opens accordion and retrieves notes for all courses;
+  // =========================================================================
+  // schoolBtn click handler: 1) clicking on open school closes it; clicking on
+  // closed school opens it and closes any open school; 2) retrieves notes for
+  // all courses of the school;
   $('#searchBySchool').on("click", ".schoolBtn", function() {
-    // TODO: open school accordion here;
-    var schoolID = this.id.slice(0, -4);
-    console.log('fetching: /notesOfSchool/' + schoolID);
-
-    if ($('#' + this.id + ' > div').length == 0) {
-      console.log('children: ' + $('#' + this.id + ' > div').length);
-      $.getJSON('/notesOfSchool/' + schoolID, function(coursesArr) {
-        console.log('/notesOfSchool/'+schoolID);
-        $.each(coursesArr[0].courses, function(idx, course) {
-          if($('#' + course._id).next().class != "notesOfCourse"){ // if notes aren't all ready displayed
-            var ulOfNotes = "<ul>";
-            $.each(course.notes, function(idx, note){
-              ulOfNotes += "<li>"+note.text + "</li>";
-            });
-            ulOfNotes += "</ul>"
-            $('#' + course._id).after(
-                $('<div/>', {class: "notesOfCourse"}).innerHTML =ulOfNotes
-              );
-          }
+    var clickedWasNotOpen = !$(this).hasClass('open');
+    // target 'em all (tough for the CPU);
+    $('.coursesOfSchool').slideUp('normal');
+    // again, do 'em all!
+    $('.schoolBtn').removeClass('open');
+    if (clickedWasNotOpen) {
+      $(this).addClass('open').next().slideDown('normal');
+    }
+    // fetch the notes if not already loaded;
+    if (!$(this).hasClass('hasNotes')) {
+      $(this).addClass('hasNotes');
+      var schoolID = this.id.slice(0, -4);
+      $.getJSON('/notesOfSchool/' + schoolID, function(schoolArr) {
+        // returns a one-element array: [ {
+        //   id: xxx,
+        //   name: "Harvard",
+        //   courses: [ {...}, {...}, {....} ]
+        // } ]
+        $.each(schoolArr[0].courses, function(idx, course) {
+          var listItems = "";
+          $.each(course.notes, function(idx, note){
+            listItems += "<li>" + note.notedesc + "</li>";
+          });
+          $('#' + course._id).after(
+              $('<div class="notesOfCourse" style="display: none;"><ul>' +
+                listItems + '</ul></div>')
+          );
         });
       });
     }
   });
-//================================= 
   
+  //=================================
+  // courseBtn click handler: clicking on open course closes it; clicking on
+  // closed course opens it and closes any open course;
   $('#searchBySchool').on("click", ".courseBtn", function() {
     // open course accordion to display notes;
+    var clickedWasNotOpen = !$(this).hasClass('open');
+    // target 'em all (tough for the CPU);
+    $('.notesOfCourse').slideUp('normal');
+    // again, do 'em all!
+    $('.courseBtn').removeClass('open');
+    if (clickedWasNotOpen) {
+      $(this).addClass('open').next().slideDown('normal');
+    }
   });
 
-  $('#notes-btn').click(function (event) { 
-    $('#drop-area').hide();
-    $('#searchBySchool').show();
-  });
   
   var fileListHeaderDrawn = false;
   function nodeToString ( node ) {
