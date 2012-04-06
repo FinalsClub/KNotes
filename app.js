@@ -4,15 +4,15 @@
  * Import express, our framework. and the route/business logic files
  */
 var express  = require('express');
-var auth     = require('connect-auth');
+var everyauth     = require('everyauth');
 var mongoose = require('./schema.js').mongoose;
 var routes   = require('./routes');
 
 var app = express.createServer()
 
 // Mongoose (database) configuration
-//var Note    = mongoose.model( 'Note' );
-//var User    = mongoose.model( 'User' );
+var Note    = mongoose.model( 'Note' );
+var User    = mongoose.model( 'User' );
 
 /**
  * App configuration in three parts:
@@ -34,6 +34,8 @@ app.configure(function(){
   app.use(express.session({ secret: 'your secret here' }));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  // everyauth
+  everyauth.helpExpress(app);
 });
 
 app.configure('development', function(){
@@ -43,6 +45,44 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
+
+/*
+ * Helper middleware functions
+ *    for things we want available before our routes load
+ */
+
+/*
+everyauth.everymodule.findUserById( function(id, callback) {
+  // everyauth expects a form with an id field and a password field.
+  // and passes the id and password on to you
+
+  // TODO: make a user find by email
+  User.findOne({'email': id.toLowerCase() }, function(err, user) {
+    if(err){ console.log("TODO: sendjson back on failed login")}
+    if (
+    callback();
+  });
+});
+ */
+
+// don't worry about the login.ejs. all we have to do is post a login form with the right
+// fields to that location. we need not render/display /login
+everyauth
+  .password
+    .loginWith('email')
+    .getLoginPath('/login')
+    .postLoginPath('/')
+    .loginView('login.ejs')
+    .authenticate( function(login, password) {
+      var errors = [];
+      if (!login) errors.push('Missing login');
+      if (!password) errors.push('Missing password');
+      if (errors.length) return errors;
+      var user = usersByLogin[login];
+      if (!user) return ['Login failed'];
+      if (user.password !== password) return ['Login failed'];
+      return user;
+    })
 
 // Routes
 console.dir(routes);
