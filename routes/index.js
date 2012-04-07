@@ -14,6 +14,7 @@ exports.index = function(req, res){
 
 // NOW: obsolete;
 exports.notes = function(req, res){
+  console.log('req.user ' + req.user);
   //res.render('index.html', { title: 'Values to be rendered go here' })
   //   The JSON returned looks like this:
   //     { "schoolName": "BU",
@@ -45,6 +46,7 @@ exports.notes = function(req, res){
 };
 
 exports.schools = function(req, res){
+  console.log('req.user ' + req.user);
   mongoose.connect('mongodb://localhost/kn');
   var SchoolAccObj  = mongoose.model( 'School' );
   // retrieve all schools, all courses;
@@ -59,6 +61,7 @@ exports.schools = function(req, res){
 
 exports.searchBySchool = function(req, res){
   mongoose.connect('mongodb://localhost/kn');
+  console.log('req.user ' + req.user);
   var SchoolAccObj  = mongoose.model( 'School' );
   // retrieve all schools, all courses;
   SchoolAccObj.find({},

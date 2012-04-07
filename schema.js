@@ -1,9 +1,10 @@
 /* vim: set ts=2: */
 
 // There are three collections: Users, Schools, and Notes.
-// 
+
 var mongoose    = require('mongoose')
-  , Schema      = mongoose.Schema;
+  , Schema      = mongoose.Schema
+  , mongooseAuth = require('mongoose-auth');
 
 var RATING_MAX = 100;
 var RATING_MIN = 0;
@@ -38,8 +39,8 @@ var UserSchema = new Schema({
   gradYear    : String,
   email       : String,
   facebookid  : String,
-  notesUp     : [NoteDescriptionSchema],  // displayed on the profile page - notes uploaded by a user 
-  notesDown   : [NoteDescriptionSchema],  // displayed on the profile page - notes downloaded by a user 
+  notesUp     : [NoteDescriptionSchema],  // displayed on the profile page - notes uploaded by a user
+  notesDown   : [NoteDescriptionSchema],  // displayed on the profile page - notes downloaded by a user
   karmas      : [ReputationEventSchema],
   privileges  : {
     canUpload   : Boolean,
@@ -52,13 +53,58 @@ var UserSchema = new Schema({
   tags          : [String]
 });
 
+// installing mongoose-auth plugin to auto-add fbid when needed, and to encrypt passwords
+UserSchema.plugin(mongooseAuth, {
+  facebook: true
+});
+UserSchema.plugin(mongooseAuth, {
+    // Here, we attach _this_ User model to every module
+    everymodule: {
+      everyauth: {
+          User: function () {
+            return User;
+          }
+      }
+    }
+
+  , facebook: {
+      everyauth: {
+          myHostname: 'http://localhost:3000'
+        , appId: 'YOUR APP ID HERE'
+        , appSecret: 'YOUR APP SECRET HERE'
+        , redirectPath: '/'
+      }
+    }
+  , password: {
+        loginWith: 'email'
+      , extraParams: {
+            // any decorative userfields not needed by the app otherwise can go here
+            phone: String
+          , name: {
+                first: String
+              , last: String
+            }
+        }
+      , everyauth: {
+            getLoginPath: '/login'
+          , postLoginPath: '/login'
+          , loginView: 'login.jade'
+          , getRegisterPath: '/register'
+          , postRegisterPath: '/register'
+          , registerView: 'register.jade'
+          , loginSuccessRedirect: '/'
+          , registerSuccessRedirect: '/'
+        }
+    }
+});
+
 //===== SCHOOLS ===================================
 var NoteDesc = new Schema({
   id: Schema.ObjectId,
   noteDesc: String
 });
 var fields = [
-  "English", 
+  "English",
   "Computer Science"
 ];
 // The value of the field property must be taken from the
