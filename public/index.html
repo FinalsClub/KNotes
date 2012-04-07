@@ -90,7 +90,7 @@
 <body>
 <div id="container" class="container-fluid">
   <header>
-    Karma Notes   
+    Karma Notes
   </header>
 
   <div id="drop-area">
@@ -112,10 +112,12 @@
   
   <table id="file-list" style="background:#ffffff;opacity:1;width:70%;cell-padding:5px;margin-left:auto;margin-right:auto;margin-top:-320px;z-index:1">
   </table>
+  <form style="margin-top:400px;" action='/login'>
+    <input type='text' name='email'\>
+    <input type='text' name='password'\>
+    <input type='submit' value='login'/>
+  </form>
 </div> <!-- /container -->
-<form action='/login'>
-<input name='email'\>
-<input name='password'\>
 
 <!-- Also allow form file selection?
     <input class="btn" id="fileupload" type="file" name="files[]" multiple>
