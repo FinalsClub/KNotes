@@ -8,6 +8,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 exports.index = function(req, res){
   //res.render('index.html', { title: 'Values to be rendered go here' })
+  console.log('req.user ' + req.user);
   res.sendfile( 'public/index.html' );
 };
 
