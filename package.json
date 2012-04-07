@@ -6,6 +6,7 @@
     "connect-auth": "0.5.0"
     , "blueimp-file-upload-node": "1.0.0"
     , "ejs": ">= 0.0.1"
+    , "everyauth" : "0.2.32"
     , "express": "2.5.5"
     , "mongoose": "2.5.10"
   }
