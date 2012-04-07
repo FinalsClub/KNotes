@@ -1,10 +1,11 @@
 #!/bin/bash
+# A script to load sample data for development
 
-#Insert note records
-mongoimport -d kn -c notes note.json
+# Insert notes records
+mongoimport --db kn --collection notes notes.json
 
-#Insert school records, with nested course info
-mongoimport -d kn -c schools schools.json
+# Insert schools records, with nested course and note info
+mongoimport --db kn --collection schools schools.json
 
-# Insert User record
-mongoimport -d kn -c users schools.json
+# Insert users records
+mongoimport --db kn --collection users users.json
